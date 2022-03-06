@@ -4,17 +4,23 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class MyCalendar extends JFrame implements ActionListener{
-	DbConnect db = new DbConnect(); //오라클 DB와 연결
+	DbConnect db = new DbConnect(); //오라클 DB객체 생성
 	Container cp;
 	JLabel lblID,lblPW; //라벨 ID,PW
-	JTextField tfID,tfPW; //텍스트필드 ID,PW
+	JTextField tfID; //텍스트필드 ID
+	JPasswordField tfPW; //패스워드필드 PW
 	JButton btnSignin,btnSignup; //로그인버튼,가입버튼
 	
 	SignupFrame signup=new SignupFrame("회원가입");
@@ -37,7 +43,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 		lblPW=new JLabel("PW");
 		//텍스트필드 생성
 		tfID=new JTextField(8);
-		tfPW=new JTextField(8);
+		tfPW=new JPasswordField(8);
 		//버튼 생성
 		btnSignin=new JButton("로그인");
 		btnSignup=new JButton("회원가입");
@@ -61,6 +67,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 		//이벤트 생성
 		btnSignin.addActionListener(this);
 		btnSignup.addActionListener(this);
+		signup.btnSubmit.addActionListener(this);
 	}
 	
 	@Override //이벤트 메서드
@@ -71,6 +78,38 @@ public class MyCalendar extends JFrame implements ActionListener{
 		}
 		else if(ob==btnSignup) {
 			signup.setVisible(true);
+		}
+		else if(ob==signup.btnSubmit) {
+			String id=signup.tfId.getText();
+			String pw=signup.tfPw.getText();
+			String name=signup.tfName.getText();
+			String birth=signup.tfBirth.getText();
+			
+			String sql="insert into todo_member values(seq_todo.nextval,?,?,?,?)";	
+			//오라클 DB연결
+			Connection conn = db.getOracle();
+			PreparedStatement pstmt = null;
+			try {
+				pstmt = conn.prepareStatement(sql);
+				//바인딩
+				pstmt.setString(1, id);
+				pstmt.setString(2, pw);
+				pstmt.setString(3, name);
+				pstmt.setString(4, birth);
+				//sql문 실행
+				pstmt.execute();
+				
+				JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다!");
+				signup.tfId.setText("");
+				signup.tfPw.setText("");
+				signup.tfName.setText("");
+				signup.tfBirth.setText("");
+				signup.setVisible(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} finally {
+				db.dbClose(pstmt, conn);
+			}
 		}
 	}
 

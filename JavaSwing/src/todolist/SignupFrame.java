@@ -6,12 +6,14 @@ import java.awt.Container;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class SignupFrame extends JFrame{
+public class SignupFrame extends JFrame {
 	Container cp;
 	JLabel lblId,lblPw,lblName,lblBirth;
-	JTextField tfId,tfPw,tfName,tfBirth;
+	JTextField tfId,tfName,tfBirth;
+	JPasswordField tfPw;
 	JButton btnSubmit;
 	
 	public SignupFrame(String title) {
@@ -34,7 +36,7 @@ public class SignupFrame extends JFrame{
 		lblBirth=new JLabel("생년월일");
 		//텍스트필드 생성
 		tfId=new JTextField();
-		tfPw=new JTextField();
+		tfPw=new JPasswordField();
 		tfName=new JTextField();
 		tfBirth=new JTextField();
 		//버튼 생성
@@ -43,22 +45,22 @@ public class SignupFrame extends JFrame{
 		//컴포넌트 위치 지정(라벨,텍스트필드,버튼)
 		lblId.setBounds(30, 30, 50, 30);
 		this.add(lblId);
-		tfId.setBounds(80, 30, 100, 30);
+		tfId.setBounds(90, 30, 100, 30);
 		this.add(tfId);
 		
 		lblPw.setBounds(30, 70, 50, 30);
 		this.add(lblPw);
-		tfPw.setBounds(80, 70, 100, 30);
+		tfPw.setBounds(90, 70, 100, 30);
 		this.add(tfPw);
 		
 		lblName.setBounds(30, 110, 50, 30);
 		this.add(lblName);
-		tfName.setBounds(80, 110, 100, 30);
+		tfName.setBounds(90, 110, 100, 30);
 		this.add(tfName);
 		
 		lblBirth.setBounds(30, 150, 50, 30);
 		this.add(lblBirth);
-		tfBirth.setBounds(80, 150, 100, 30);
+		tfBirth.setBounds(90, 150, 100, 30);
 		this.add(tfBirth);
 		
 		btnSubmit.setBounds(70, 200, 80, 30);
