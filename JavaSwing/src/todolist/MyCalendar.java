@@ -94,30 +94,38 @@ public class MyCalendar extends JFrame implements ActionListener{
 			//오라클 DB연결
 			Connection conn = db.getOracle();
 			PreparedStatement pstmt = null;
-			try {
-				pstmt = conn.prepareStatement(sql);
-				//바인딩
-				pstmt.setString(1, id);
-				pstmt.setString(2, pw);
-				pstmt.setString(3, name);
-				pstmt.setString(4, birth);
-				//sql문 실행
-				pstmt.execute();
-				
-				JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다!");
-				signup.tfId.setText("");
-				signup.tfPw.setText("");
-				signup.tfName.setText("");
-				signup.tfBirth.setText("");
-				signup.setVisible(false);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			} finally {
-				db.dbClose(pstmt, conn);
+			
+			//입력을 어느 하나라도 안할 경우
+			if(id.equals("")||pw.equals("")||name.equals("")||birth.equals("")) {
+				JOptionPane.showMessageDialog(this, "정확히 입력해 주세요.");
+			}
+			//입력이 바르게 되었을 경우
+			else {
+				try {
+					pstmt = conn.prepareStatement(sql);
+					//바인딩
+					pstmt.setString(1, id);
+					pstmt.setString(2, pw);
+					pstmt.setString(3, name);
+					pstmt.setString(4, birth);
+					//sql문 실행
+					pstmt.execute();
+					
+					JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다!");
+					signup.tfId.setText("");
+					signup.tfPw.setText("");
+					signup.tfName.setText("");
+					signup.tfBirth.setText("");
+					signup.setVisible(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} finally {
+					db.dbClose(pstmt, conn);
+				}
 			}
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		new MyCalendar("My 캘린더");
 	}
