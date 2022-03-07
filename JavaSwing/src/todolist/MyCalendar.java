@@ -77,7 +77,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 		btnSignup.addActionListener(this);
 		signup.btnSubmit.addActionListener(this);
 	}
-	
+///////////////////////////////////////////////////
 	//로그인 메서드
 	public void login(String inID, String inPW) {
 		String sql="select pw from todo_member where id='"+inID+"'";
@@ -110,7 +110,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
+///////////////////////////////////////////////////	
 	@Override //이벤트 메서드
 	public void actionPerformed(ActionEvent e) {
 		Object ob=e.getSource();
@@ -170,7 +170,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 			}
 		}
 	}
-	
+///////////////////////////////////////////////////
 	public static void main(String[] args) {
 		new MyCalendar("My 캘린더");
 	}
