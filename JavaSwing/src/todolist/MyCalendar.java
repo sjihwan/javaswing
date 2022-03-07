@@ -135,7 +135,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 		else if(ob==btnSignup) { //회원가입 버튼 클릭
 			signup.setVisible(true);
 		}
-		else if(ob==signup.btnSubmit) {
+		else if(ob==signup.btnSubmit) { //"가입하기" 버튼 클릭
 			String id=signup.tfId.getText();
 			String pw=signup.tfPw.getText();
 			String name=signup.tfName.getText();
@@ -176,6 +176,10 @@ public class MyCalendar extends JFrame implements ActionListener{
 					db.dbClose(pstmt, conn);
 				}
 			}
+		}
+		else if(ob==mw.btnCheck) { //날짜선택후 "확인"버튼 클릭
+			String m=(String)mw.cbDateM.getSelectedItem();
+			String w=(String)mw.cbDateW.getSelectedItem();
 		}
 	}
 ///////////////////////////////////////////////////
