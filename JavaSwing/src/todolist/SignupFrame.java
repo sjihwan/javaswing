@@ -20,19 +20,21 @@ public class SignupFrame extends JFrame {
 	public SignupFrame(String title) {
 		super(title);
 		cp = this.getContentPane();
-//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(450, 100, 260, 300);
 		cp.setBackground(new Color(255, 200, 200));
 		initDesign();
-//		this.setVisible(true);
+		//this.setVisible(true);
 	}
 	
 	public void initDesign() {
 		this.setLayout(null);
 		
+		//폰트
 		Font a=new Font("나눔손글씨 장미체", Font.BOLD, 20);
+		Font b=new Font("카페24 빛나는별", Font.PLAIN, 20);
 		
-		//라벨 생성
+		//라벨 생성&폰트 적용
 		lblId=new JLabel("ID");
 		lblId.setFont(a);
 		lblPw=new JLabel("PW");
@@ -48,6 +50,7 @@ public class SignupFrame extends JFrame {
 		tfBirth=new JTextField();
 		//버튼 생성
 		btnSubmit=new JButton("가입하기");
+		btnSubmit.setFont(b);
 		
 		//컴포넌트 위치 지정(라벨,텍스트필드,버튼)
 		lblId.setBounds(30, 30, 70, 30);

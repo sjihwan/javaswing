@@ -26,7 +26,9 @@ public class MyCalendar extends JFrame implements ActionListener{
 	JPasswordField tfPW; //패스워드필드 PW
 	JButton btnSignin,btnSignup; //로그인버튼,가입버튼
 	
+	//회원가입&날짜선택 프레임
 	SignupFrame signup=new SignupFrame("회원가입");
+	Select_MonthWeek mw=new Select_MonthWeek("날짜입력");
 	
 	public MyCalendar(String title) {
 		super(title);
@@ -42,7 +44,8 @@ public class MyCalendar extends JFrame implements ActionListener{
 		this.setLayout(null);
 		
 		//폰트
-		Font a=new Font("카페24 빛나는별", Font.BOLD, 30);
+		Font a=new Font("나눔손글씨 장미체", Font.BOLD, 30);
+		Font b=new Font("카페24 빛나는별", Font.PLAIN, 20);
 		
 		//라벨 생성
 		lblID=new JLabel("ID");
@@ -54,7 +57,9 @@ public class MyCalendar extends JFrame implements ActionListener{
 		tfPW=new JPasswordField(8);
 		//버튼 생성
 		btnSignin=new JButton("로그인");
+		btnSignin.setFont(b);
 		btnSignup=new JButton("회원가입");
+		btnSignup.setFont(b);
 		
 		//컴포넌트들의 위치지정(라벨,텍스트필드,버튼)
 		lblID.setBounds(30, 30, 50, 30);
@@ -98,6 +103,8 @@ public class MyCalendar extends JFrame implements ActionListener{
 				//비밀번호 비교
 				if(rs.getString(1).contentEquals(inPW)) {
 					JOptionPane.showMessageDialog(this, "로그인 성공!!");
+					this.setVisible(false);
+					mw.setVisible(true);
 				}
 				else {
 					JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
@@ -118,11 +125,11 @@ public class MyCalendar extends JFrame implements ActionListener{
 			String id=tfID.getText();
 			String pw=tfPW.getText();
 			
-			if(id.equals("")||pw.equals("")) {
+			if(id.equals("")||pw.equals("")) { //아이디,비번 공백 입력일 경우
 				JOptionPane.showMessageDialog(this, "아이디와 비밀번호를 정확히 입력해 주세요.");
 			}
 			else {
-				login(id, pw);
+				login(id, pw); //login() 호출
 			}
 		}
 		else if(ob==btnSignup) { //회원가입 버튼 클릭
@@ -142,7 +149,8 @@ public class MyCalendar extends JFrame implements ActionListener{
 			//입력을 어느 하나라도 안할 경우
 			if(id.equals("")||pw.equals("")||name.equals("")||birth.equals("")) {
 				JOptionPane.showMessageDialog(this, "정확히 입력해 주세요.");
-				//메시지창 위치 지정했으면 좋겠다
+				//... 메시지창 위치 지정 ...
+				//... 메시지창 글꼴 지정 ...
 			}
 			//입력이 바르게 되었을 경우
 			else {
