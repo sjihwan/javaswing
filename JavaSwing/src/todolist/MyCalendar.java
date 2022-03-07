@@ -2,6 +2,7 @@ package todolist;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -38,9 +39,13 @@ public class MyCalendar extends JFrame implements ActionListener{
 	public void initDesign() {
 		this.setLayout(null);
 		
+		Font a=new Font("카페24 빛나는별", Font.BOLD, 30);
+		
 		//라벨 생성
 		lblID=new JLabel("ID");
+		lblID.setFont(a);
 		lblPW=new JLabel("PW");
+		lblPW.setFont(a);
 		//텍스트필드 생성
 		tfID=new JTextField(8);
 		tfPW=new JPasswordField(8);
