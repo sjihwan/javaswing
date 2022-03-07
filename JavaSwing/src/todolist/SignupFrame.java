@@ -20,7 +20,7 @@ public class SignupFrame extends JFrame {
 	public SignupFrame(String title) {
 		super(title);
 		cp = this.getContentPane();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(450, 100, 260, 300);
 		cp.setBackground(new Color(255, 200, 200));
 		initDesign();
