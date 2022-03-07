@@ -18,17 +18,24 @@ public class Select_MonthWeek extends JFrame{
 	public Select_MonthWeek(String title) {
 		super(title);
 		cp=this.getContentPane();
-		this.setBounds(100, 100, 400, 250);
+		this.setBounds(100, 100, 400, 200);
 		cp.setBackground(new Color(255, 200, 200));
 		initDesign();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		this.setVisible(true);
 	}
 	
 	public void initDesign() {
 		this.setLayout(null);
 		
-		Font a=new Font("나눔손글씨 장미체", Font.BOLD, 15);
+		Font a=new Font("나눔손글씨 장미체", Font.BOLD, 30);
+		Font b=new Font("카페24 빛나는별", Font.PLAIN, 20);
+		
+		//콤보박스 생성
+		String[] month={"1","2","3","4","5","6","7","8","9","10","11","12"};
+		cbDateM=new JComboBox<String>(month);
+		String[] week={"1","2","3","4","5"};
+		cbDateW=new JComboBox<String>(week);
 		
 		//라벨 생성&폰트 적용
 		lblM=new JLabel("월");
@@ -36,8 +43,22 @@ public class Select_MonthWeek extends JFrame{
 		lblW=new JLabel("주차");
 		lblW.setFont(a);
 		
-		//컴포넌트들의 위치 지정(라벨,콤보박스)
+		//버튼 생성
+		btnCheck=new JButton("확인");
+		btnCheck.setFont(b);
+		
+		//컴포넌트들의 위치 지정(콤보박스,라벨,버튼)
+		cbDateM.setBounds(60, 30, 60, 30);
+		this.add(cbDateM);
+		cbDateW.setBounds(200, 30, 60, 30);
+		this.add(cbDateW);
+		
+		lblM.setBounds(130, 30, 70, 30);
 		this.add(lblM);
+		lblW.setBounds(270, 30, 70, 30);
 		this.add(lblW);
+		
+		btnCheck.setBounds(150, 100, 70, 30);
+		this.add(btnCheck);
 	}
 }
