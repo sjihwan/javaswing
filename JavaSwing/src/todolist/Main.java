@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class MyCalendar extends JFrame implements ActionListener{
+public class Main extends JFrame implements ActionListener{
 	DbConnect db=new DbConnect(); //오라클 DB객체 생성
 	Container cp;
 	JLabel lblID,lblPW; //라벨 ID,PW
@@ -26,11 +26,13 @@ public class MyCalendar extends JFrame implements ActionListener{
 	JPasswordField tfPW; //패스워드필드 PW
 	JButton btnSignin,btnSignup; //로그인버튼,가입버튼
 	
-	//회원가입&날짜선택 프레임
+	//외부 Frame
+	//회원가입&날짜선택&일정표
 	SignupFrame signup=new SignupFrame("회원가입");
 	Select_MonthWeek mw=new Select_MonthWeek("날짜입력");
+	Dayselect sche=new Dayselect("일정표");
 	
-	public MyCalendar(String title) {
+	public Main(String title) {
 		super(title);
 		cp=this.getContentPane();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,6 +42,7 @@ public class MyCalendar extends JFrame implements ActionListener{
 		this.setVisible(true);
 	}
 	
+	//1.디자인 매서드
 	public void initDesign() {
 		this.setLayout(null);
 		
@@ -81,23 +84,29 @@ public class MyCalendar extends JFrame implements ActionListener{
 		btnSignin.addActionListener(this);
 		btnSignup.addActionListener(this);
 		signup.btnSubmit.addActionListener(this);
+		mw.btnCheck.addActionListener(this);
 	}
+	
 ///////////////////////////////////////////////////
-	//로그인 메서드
+	//2.로그인 메서드
+	/*
+	 * 입력한 ID,PW를 인수로 가져와
+	 * -> 
+	 * ID와 일치하는 PW를 찾아 로그인 성공!!
+	 * ->
+	 * monthweek 창을 부른다
+	 * ->
+	 * 입력한 아이디를 인수로 가져가
+	 * ->
+	 * 일정표 테이블을 출력...Write()
+	 */
 	public void login(String inID, String inPW) {
 		String sql="select pw from todo_member where id='"+inID+"'";
-		//오라클DB 연결
 		Connection conn=db.getOracle();
-		//PreparedStatement pstmt=null;
 		Statement stmt=null;
 		ResultSet rs=null;
 		try {
 			stmt=conn.createStatement();
-			//pstmt=conn.prepareStatement(sql);
-			//바인딩
-			//pstmt.setString(1, inID);
-			//SQL문 실행
-			//rs=pstmt.executeQuery(sql);
 			rs=stmt.executeQuery(sql);
 			if(rs.next()) { //ID가 일치하는 것이 있으면
 				//비밀번호 비교
@@ -105,6 +114,8 @@ public class MyCalendar extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(this, "로그인 성공!!");
 					this.setVisible(false);
 					mw.setVisible(true);
+					//inID를 인수로 가져가 조건절로 조회문 출력
+					//write(inID);
 				}
 				else {
 					JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
@@ -117,25 +128,37 @@ public class MyCalendar extends JFrame implements ActionListener{
 			e.printStackTrace();
 		}
 	}
+	
+	//3.출력 메서드
+	
 ///////////////////////////////////////////////////	
-	@Override //이벤트 메서드
+	//이벤트 메서드
+	@Override 
 	public void actionPerformed(ActionEvent e) {
+		
 		Object ob=e.getSource();
-		if(ob==btnSignin) { //로그인 버튼 클릭
+		
+		//로그인 버튼 클릭
+		if(ob==btnSignin) { 
 			String id=tfID.getText();
-			String pw=tfPW.getText();
-			
-			if(id.equals("")||pw.equals("")) { //아이디,비번 공백 입력일 경우
+			String pw=tfPW.getText();			
+			if(id.equals("")||pw.equals("")) { //아이디,비번 공백 입력 시
 				JOptionPane.showMessageDialog(this, "아이디와 비밀번호를 정확히 입력해 주세요.");
 			}
-			else {
+			else { //아이디,비번 모두 입력 시
 				login(id, pw); //login() 호출
 			}
 		}
-		else if(ob==btnSignup) { //회원가입 버튼 클릭
+		
+		
+		//회원가입 버튼 클릭
+		else if(ob==btnSignup) { 
 			signup.setVisible(true);
 		}
-		else if(ob==signup.btnSubmit) { //"가입하기" 버튼 클릭
+		
+		
+		//"가입하기" 버튼 클릭
+		else if(ob==signup.btnSubmit) { 
 			String id=signup.tfId.getText();
 			String pw=signup.tfPw.getText();
 			String name=signup.tfName.getText();
@@ -177,13 +200,27 @@ public class MyCalendar extends JFrame implements ActionListener{
 				}
 			}
 		}
-		else if(ob==mw.btnCheck) { //날짜선택후 "확인"버튼 클릭
+		
+		
+		//월&주차 선택후 "확인"버튼 클릭
+		else if(ob==mw.btnCheck) { 
+			
+			//월&주차
+			//(String) m,w 변수에 저장
 			String m=(String)mw.cbDateM.getSelectedItem();
 			String w=(String)mw.cbDateW.getSelectedItem();
+			
+			//월주차Frame 닫기
+			mw.setVisible(false); 
+			
+			//스케줄Frame 열기
+			sche.setVisible(true);
 		}
 	}
+	
+	
 ///////////////////////////////////////////////////
 	public static void main(String[] args) {
-		new MyCalendar("My 캘린더");
+		new Main("My 캘린더");
 	}
 }
