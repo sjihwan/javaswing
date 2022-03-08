@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -32,15 +33,15 @@ public class Select_MonthWeek extends JFrame{
 		Font b=new Font("카페24 빛나는별", Font.PLAIN, 20);
 		
 		//콤보박스 생성
+		String[] year= {"2022"};
+		cbDateM=new JComboBox<String>(year);
 		String[] month={"1","2","3","4","5","6","7","8","9","10","11","12"};
-		cbDateM=new JComboBox<String>(month);
-		String[] week={"1","2","3","4","5"};
-		cbDateW=new JComboBox<String>(week);
+		cbDateW=new JComboBox<String>(month);
 		
 		//라벨 생성&폰트 적용
-		lblM=new JLabel("월");
+		lblM=new JLabel("년");
 		lblM.setFont(a);
-		lblW=new JLabel("주차");
+		lblW=new JLabel("월");
 		lblW.setFont(a);
 		
 		//버튼 생성

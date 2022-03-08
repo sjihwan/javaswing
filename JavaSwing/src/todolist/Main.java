@@ -177,26 +177,38 @@ public class Main extends JFrame implements ActionListener{
 			}
 			//입력이 바르게 되었을 경우
 			else {
+				ResultSet rs =null;
+				String sql0="select * from todo_member where id=?";
+				
 				try {
-					pstmt=conn.prepareStatement(sql);
-					//바인딩
+					pstmt=conn.prepareStatement(sql0);
 					pstmt.setString(1, id);
-					pstmt.setString(2, pw);
-					pstmt.setString(3, name);
-					pstmt.setString(4, birth);
-					//SQL문 실행
-					pstmt.execute();
-					
-					JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다!");
-					signup.tfId.setText("");
-					signup.tfPw.setText("");
-					signup.tfName.setText("");
-					signup.tfBirth.setText("");
-					signup.setVisible(false);
+					rs=pstmt.executeQuery();
+					//아이디 중복확인
+					if(rs.next()) { 
+						JOptionPane.showMessageDialog(this, "중복된 아이디가 있습니다","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						pstmt=conn.prepareStatement(sql);
+						//바인딩
+						pstmt.setString(1, id);
+						pstmt.setString(2, pw);
+						pstmt.setString(3, name);
+						pstmt.setString(4, birth);
+						//SQL문 실행
+						pstmt.execute();
+						
+						JOptionPane.showMessageDialog(this, "회원가입이 완료되었습니다!");
+						signup.tfId.setText("");
+						signup.tfPw.setText("");
+						signup.tfName.setText("");
+						signup.tfBirth.setText("");
+						signup.setVisible(false);
+					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} finally {
-					db.dbClose(pstmt, conn);
+					db.dbClose(rs, pstmt, conn);
 				}
 			}
 		}
@@ -205,22 +217,48 @@ public class Main extends JFrame implements ActionListener{
 		//월&주차 선택후 "확인"버튼 클릭
 		else if(ob==mw.btnCheck) { 
 			
-			//월&주차
+			//년도&월 선택후
 			//(String) m,w 변수에 저장
-			String m=(String)mw.cbDateM.getSelectedItem();
-			String w=(String)mw.cbDateW.getSelectedItem();
+			String y=(String)mw.cbDateM.getSelectedItem();
+			String m=(String)mw.cbDateW.getSelectedItem();
 			
+			if(y=="2022"&&m=="2") {
+				//스케줄Frame 열기
+				sche.setVisible(true);
+			}
 			//월주차Frame 닫기
 			mw.setVisible(false); 
-			
-			//스케줄Frame 열기
-			sche.setVisible(true);
 		}
 	}
 	
+	public void check(String id) {
+		Connection conn=db.getOracle();
+		PreparedStatement pstmt=null;
+		ResultSet rs =null;
+		String sql="select * from todo_member where id=?";
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				JOptionPane.showMessageDialog(this, "중복된 아이디가 있습니다","ERROR_MESSAGE",JOptionPane.ERROR_MESSAGE);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+		
+		
 	
 ///////////////////////////////////////////////////
 	public static void main(String[] args) {
 		new Main("My 캘린더");
 	}
 }
+
+/*
+ * 각자 ID에 해당하는 테이블 불러오기 필요
+ * 회원테이블, ID가 포함된 테이블, 일정테이블 서로 간의 연동 필요
+ */
+ 
