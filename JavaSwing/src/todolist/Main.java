@@ -29,7 +29,7 @@ public class Main extends JFrame implements ActionListener{
 	//외부 Frame
 	//회원가입&날짜선택&일정표
 	SignupFrame signup=new SignupFrame("회원가입");
-	Select_MonthWeek mw=new Select_MonthWeek("날짜입력");
+	Select_Date sd=new Select_Date("날짜입력");
 	Dayselect sche=new Dayselect("일정표");
 	
 	public Main(String title) {
@@ -84,7 +84,7 @@ public class Main extends JFrame implements ActionListener{
 		btnSignin.addActionListener(this);
 		btnSignup.addActionListener(this);
 		signup.btnSubmit.addActionListener(this);
-		mw.btnCheck.addActionListener(this);
+		sd.btnCheck.addActionListener(this);
 	}
 	
 ///////////////////////////////////////////////////
@@ -108,12 +108,13 @@ public class Main extends JFrame implements ActionListener{
 		try {
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(sql);
-			if(rs.next()) { //ID가 일치하는 것이 있으면
+			//ID가 일치하는 것이 있으면
+			if(rs.next()) { 
 				//비밀번호 비교
 				if(rs.getString(1).contentEquals(inPW)) {
 					JOptionPane.showMessageDialog(this, "로그인 성공!!");
 					this.setVisible(false);
-					mw.setVisible(true);
+					sd.setVisible(true);
 					//inID를 인수로 가져가 조건절로 조회문 출력
 					//write(inID);
 				}
@@ -121,7 +122,8 @@ public class Main extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
 				}
 			}
-			else { //ID가 일치하는 것이 없으면
+			//ID가 일치하는 것이 없으면
+			else { 
 				JOptionPane.showMessageDialog(this, "해당 아이디가 존재하지 않습니다.");
 			}
 		} catch (SQLException e) {
@@ -215,19 +217,19 @@ public class Main extends JFrame implements ActionListener{
 		
 		
 		//월&주차 선택후 "확인"버튼 클릭
-		else if(ob==mw.btnCheck) { 
+		else if(ob==sd.btnCheck) { 
 			
 			//년도&월 선택후
 			//(String) m,w 변수에 저장
-			String y=(String)mw.cbDateM.getSelectedItem();
-			String m=(String)mw.cbDateW.getSelectedItem();
+			String y=(String)sd.cbDateM.getSelectedItem();
+			String m=(String)sd.cbDateW.getSelectedItem();
 			
 			if(y=="2022"&&m=="2") {
 				//스케줄Frame 열기
 				sche.setVisible(true);
 			}
 			//월주차Frame 닫기
-			mw.setVisible(false); 
+			sd.setVisible(false); 
 		}
 	}
 	

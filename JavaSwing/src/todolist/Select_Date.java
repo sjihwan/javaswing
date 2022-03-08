@@ -10,13 +10,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Select_MonthWeek extends JFrame{
+public class Select_Date extends JFrame{
 	Container cp;
 	JComboBox<String> cbDateM,cbDateW; //콤보박스Month,Week
 	JLabel lblM,lblW; //라벨Month,Week
 	JButton btnCheck; //확인버튼
 	
-	public Select_MonthWeek(String title) {
+	public Select_Date(String title) {
 		super(title);
 		cp=this.getContentPane();
 		this.setBounds(100, 100, 400, 200);
